@@ -3,17 +3,17 @@
 import re
 
 
-file_object=open('E:\\Chinese\\20170727缪姐项目\\抗战烽火之护国系统.txt','rt',encoding='utf-8')#gb2312/gb18030，
+file_object=open('E:\\Chinese\\1\\1.txt','rt',encoding='utf-8')#gb2312/gb18030，
 lines_seen = set()
 a=re.findall('[\u4e00-\u9fa5]{18,30}',file_object.read())
 for line in a:
     if line not in lines_seen:
-        text_1 = open('E:\\Chinese\\20170727缪姐项目\\限制字数\\小说-1-limit18-30.txt', 'a',encoding='utf-8')
+        text_1 = open('E:\\Chinese\\1\\2\\3.txt', 'a',encoding='utf-8')
         text_1.write(line+'\n')
         lines_seen.add(line)
         # print(line)
     else:
-        text_1 = open('E:\\Chinese\\20170727缪姐项目\\限制字数\\chongfu.txt', 'a', encoding='utf-8')
+        text_1 = open('E:\\Chinese\\1\\2\\chongfu.txt', 'a', encoding='utf-8')
         text_1.write(line + '\n')
         print(line)
 file_object.close()
