@@ -1,0 +1,47 @@
+# -*- coding: utf-8 -*-
+
+import random
+import io
+import sys
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='utf8')
+
+
+def write_lines(name,num):
+
+    object_file=open('E:\\{}.txt'.format(name),'r',encoding= 'utf-8')
+
+    lines=object_file.readlines()
+
+
+    all_list=set()
+
+    # a = 0
+    for i in range(1,231):
+        f_in = open('E:\\{}.txt'.format(i), 'a',encoding= 'utf-8')
+        f_in.write(name+'\n')
+        a = 0
+        while a<num:
+            line = random.choice(lines)
+            f_in.write(line.strip('﻿'))
+            a+=1
+
+write_lines('日程',3)
+
+    # print(choice_mp3)
+
+
+    # index = 0
+    # count = 0
+    # f_in = open("%d.txt" % index, "w")
+    # with open("big.txt", "r") as f_out:
+    #     for line in f_out:
+    #         count += 1
+    #         f_in.write(line)
+    #
+    #         # 读满1000行之后，行计数置零，小文件序号加一，创建一个新的文件写信息
+    #         if count == 1000:
+    #             f_in.close()
+    #             count = 0
+    #             index += 1
+    #             f_in = open("%d.txt" % index, "w")
+
