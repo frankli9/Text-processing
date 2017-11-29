@@ -1,0 +1,17 @@
+
+a_string = '深入 Python'
+by=a_string.encode('gbk')
+by
+Out[73]:b'\xc9\xee\xc8\xeb Python'
+
+
+a_string = '深入 Python'
+by=a_string.encode('utf-8')
+by
+Out[74]:b'\xe6\xb7\xb1\xe5\x85\xa5 Python'
+
+
+a_string = '深入 Python'
+by=a_string.encode('gb2312')
+by
+Out[79]:b'\xc9\xee\xc8\xeb Python'
