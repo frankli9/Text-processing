@@ -1,0 +1,125 @@
+# import re
+#
+# file_object=open('.txt','rt',encoding='utf-8')
+# a = re.findall('“[\u4e00-\u9fa5a，。、？！]+”', file_object.read())#[\u4e00-\u9fa5a-zA-Z0-9\“]（）<>+=\'"
+# # a = re.findall('[^\、][\u4e00-\u9fa5a-zA-Z0-9]*', file_object.read())
+#
+# lines_seen = set()
+# for line in a:
+#     if len(line) >= 20 and len(line) <= 34 and line not in lines_seen:
+#         text_1 = open('\\_limit-16-30.txt', 'a+',encoding='utf-8')
+#         text_1.write(line + '\n')
+#         lines_seen.add(line)
+#         print(line)
+# file_object.close()
+
+
+#30万字小说中提取引号内对话
+# import re
+#
+# def text(name):
+#
+#     file_object=open('\\对话类\\第三批\\{}.txt'.format(name),'rt') #,encoding='utf-8'
+#     a = re.findall('“[\u4e00-\u9fa5a，。、？！!]+”', file_object.read())#[\u4e00-\u9fa5a-zA-Z0-9\“]（）<>+=\'"
+#     # a = re.findall('[^\、][\u4e00-\u9fa5a-zA-Z0-9]*', file_object.read())
+#
+#     lines_seen = set()
+#     for line in a:
+#         if line not in lines_seen:                         #_limit-16-30
+#             text_1 = open('\\对话类\\第三批_talk\\{}_talk.txt'.format(name), 'a+',encoding='utf-8')
+#             text_1.write(line + '\n')
+#             lines_seen.add(line)
+#             # print(line)
+#     file_object.close()
+#
+#     file_object=open('\对话类\\第三批_talk\\{}_talk.txt'.format(name),'rt',encoding='utf-8')
+#     a = re.findall('[\u4e00-\u9fa5a，。、？！!]+', file_object.read())
+#
+#     lines_seen = set()
+#     for line in a:
+#         if len(line) >= 19 and len(line) <= 33 and line not in lines_seen:                         #_limit-16-30
+#             text_1 = open('对话类\\第三批_talk_limit-16-30\\{}_limit-16-30.txt'.format(name), 'a+',encoding='utf-8')
+#             text_1.write(line + '\n')
+#             lines_seen.add(line)
+#             print(line)
+#     file_object.close()
+#
+# text('傲')
+
+#
+#普通,通过截取标点“",?!，？！。;；：:进行分句
+
+import re
+
+def text(name):
+
+    file_object=open('\\普通内容\\{}.txt'.format(name),'rt',encoding='utf-8')
+    a = re.findall('[‘“",?!，？！。;；：:]+[\u4e00-\u9fa5a，、？！!,?]+[。?!？！]+', file_object.read())#[\u4e00-\u9fa5a-zA-Z0-9\“]（）<>+=\'"
+    # a = re.findall('[^\、][\u4e00-\u9fa5a-zA-Z0-9]*', file_object.read())
+
+
+    lines_seen = set()
+    for line in a:
+        if len(line) >= 19 and len(line) <= 33 and line not in lines_seen:                         #_limit-16-30
+            text_1 = open('\\普通内容\\{}_limit-16-30.txt'.format(name), 'a+',encoding='utf-8')
+            text_1.write(line + '\n')
+            lines_seen.add(line)
+            print(line)
+    file_object.close()
+
+text('娱乐')
+
+
+
+    # lines_seen = set()
+    # for line in a:
+    #     if line not in lines_seen:                         #_limit-16-30
+    #         text_1 = open('普通内容\\限制字数\\{}_talk.txt'.format(name), 'a+',encoding='utf-8')
+    #         text_1.write(line + '\n')
+    #         lines_seen.add(line)
+    #         # print(line)
+    # file_object.close()
+
+    # file_object=open('\\普通内容\\限制字数\\{}_talk.txt'.format(name),'rt',encoding='utf-8')
+    # a = re.findall('[\u4e00-\u9fa5a][\u4e00-\u9fa5a，。、？！!；]+', file_object.read())
+
+    # lines_seen = set()
+    # for line in a:
+    #     if len(line) >= 19 and len(line) <= 33 and line not in lines_seen:                         #_limit-16-30
+    #         text_1 = open('\\普通内容\\{}_limit-16-30.txt'.format(name), 'a+',encoding='utf-8')
+    #         text_1.write(line + '\n')
+    #         lines_seen.add(line)
+    #         print(line)
+    # file_object.close()
+
+
+
+
+
+# 普通内容
+# def text(name):
+#
+#     with open('{}.txt'.format(name),encoding='utf-8') as f:
+#         lines=f.readlines()
+#         for line in lines:
+#             if 17 <= len(line) <=32:
+#                 with open('{}_limit-16-30.txt'.format(name),'a+',encoding='utf-8') as f_2:
+#                     f_2.write(line)
+#                     print(line)
+#             else:
+#                 pass
+#
+# text('科技')
+
+
+
+#对话类合并
+# def text(name):
+#
+#     with open('\\限制后的话语类\\{}_limit-16-30.txt'.format(name),encoding='utf-8') as f:
+#         lines=f.readlines()
+#         for line in lines:
+#             with open('\\限制后的话语类\\对话类2.txt'.format(name),'a+',encoding='utf-8') as f_2:
+#                 f_2.write(line)
+#                 print(line)
+# text('仙')
