@@ -1,0 +1,68 @@
+
+import re,os
+
+def text(path,filename):
+
+    for txtname in os.listdir('{}'.format(path)):
+        if not txtname.endswith('.txt'):
+            continue
+
+        with open('E:\\\\{}'.format(txtname), 'r', encoding='utf-8') as f:
+            A = re.findall(
+                            '\dmg|\d\dmg|\d\d\dmg|\d\.\d\dmg|\d\d\.\d\dmg|\d\d\.\dmg'
+                            '\dg|\d\dg|\d\d\dg|\d\.\d\dg|\d\d\.\d\dg|\d\d\.\dg'
+                            '\dkg|\d\dkg|\d\d\dkg|\d\.\d\dkg|\d\d\.\d\dkg|\d\d\.\dkg'
+                            '\dKG|\d\dKG|\d\d\dKG|\d\.\d\dKG|\d\d\.\d\dKG|\d\d\.\dKG'
+                            '\dL|\d\dL|\d\d\dL|\d\.\d\dL|\d\d\.\d\dL|\d\d\.\dL'
+                            '\dml|\d\dml|\d\d\dml|\d\.\d\dml|\d\d\.\d\dml|\d\d\.\dml'
+                            '\dML|\d\dML|\d\d\dML|\d\.\d\dML|\d\d\.\d\dML|\d\d\.\dML'
+                            '\d㏎|\d\d㏎|\d\d\d㏎|\d\.\d\d㏎|\d\d\.\d\d㏎|\d\d\.\d㏎'
+                            '\dkm|\d\dkm|\d\d\dkm|\d\.\d\dkm|\d\d\.\d\dkm|\d\d\.\dkm'
+                             '\d㎜|\d\d㎜|\d\d\d㎜|\d\.\d\d㎜|\d\d\.\d\d㎜|\d\d\.\d㎜'
+
+
+
+                            # '\d\*\w|\d\d\*\w\w|\d\d\d\*\w\w\w|\d\d\d\d\*\w\w\w\w|\d\d\d\d\d\*\w\w\w\w\w'
+                            # '\d\|\w|\d\d\|\w\w|\d\d\d\|\w\w\w\|\d\d\d\d\|\w\w\w\w|\d\d\d\d\d\|\w\w\w\w\w'
+                ,f.read())
+
+            print(A)
+            # A=['+']
+            # A=re.findall('[:,.?!：；，。！？]+[\u4E00-\u9FA5]{1,10}[.0-9A-Za-z ]+[.0-9A-Za-z ]+[\u4E00-\u9FA5]{1,10}[:,.?!：；，。！？]+',f.read())
+
+            # A = re.findall('[\u4E00-\u9FA5]{1,10}[a-zA-Z ]{1,10}[\u4E00-\u9FA5]{1,10}[a-zA-Z ]{1,10}[\u4E00-\u9FA5]{1,10}，|[a-zA-Z]{1,10} [a-zA-Z]{1,10} [\u4E00-\u9FA5]{1,10}[a-zA-Z]{1,10} [a-zA-Z]{1,10}，|[a-zA-Z ]{1,10} [a-zA-Z ]{1,10}[\u4E00-\u9FA5]{1,10}，', file_object.read())
+        with open('源文件\\{}'.format(txtname), 'r', encoding='utf-8') as f2:
+
+            lines_seen = set()
+            for line in f2.readlines():
+                # print(line)
+                for a in A:
+                    if a in line and line not in lines_seen:
+                        #注意这里的文件打开的时间，如果错误，程序要慢很多
+                        with open('E:\\\\{}.txt'.format(filename), 'a+',encoding='utf-8') as f3:
+                            f3.write(line + '\n')
+                            lines_seen.add(line)
+#
+# text('E:\\\\','单位符号')
+
+
+
+def filter(name):
+
+    with open('E:\\\单位符号.txt', 'r', encoding='utf-8') as f3:
+        A2=['㎜','mg','g','kg','KG','ml','ML','㏎','L','km']
+#         #A2 = ['·', '#', '$', '&', '¥', '€', '£', '℃', '℉', '‰', 'μ', '°', '″', '￠', 'm³', 'm²','-',':','+','—','*','/','㎝','㎜','㎎','ml']
+        lines_seen2 = set()
+        for line2 in f3.readlines():
+            for a2 in A2:
+                if a2 in line2 and line2 not in lines_seen2:
+                    with open('E:\\\\filter-{}.txt'.format(name), 'a+',encoding='utf-8') as f4:
+                        f4.write(line2 + '\n')
+                        lines_seen2.add(line2)
+                else:
+                    pass
+#
+filter('单位符号')
+
+
+
