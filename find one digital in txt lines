@@ -1,0 +1,19 @@
+line_set=set()
+
+with open('2.txt', 'r', encoding='utf-8') as f1:
+    all_lines = f1.readlines()
+
+with open('1.txt', 'a+', encoding='utf-8') as f2:
+    for line in all_lines:
+        changdu = []
+        for shuzi in shuzies:
+            for word in line:
+                if shuzi in word:
+                    changdu.append(word)
+
+        if len(changdu) != 1:
+            line_set.add(line)
+        else:
+            f2.write(line)
+
+print(line_set)
