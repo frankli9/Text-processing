@@ -1,0 +1,19 @@
+def ceshi():
+    # lines = ['当你使用某个汉语词代替care的时候，','It drives me crazy.','难度是一般人不做不到的']
+    with open('E:\\.txt', encoding='utf-8') as f0:
+        lines= f0.readlines()
+
+    for c in lines:
+        c_len = len(c)
+        len_i = 0
+        for i in c.encode('utf-8'):
+            len_i += 1
+
+        if len_i == c_len:
+            with open('E:.txt', 'a+', encoding='utf-8') as f1:
+                f1.write('\n')
+                f1.write(c)
+        else:
+            with open('E:.txt', 'a+', encoding='utf-8') as f1:
+                f1.write('\n')
+                f1.write(c)
