@@ -1,0 +1,72 @@
+import os
+
+#此代码可以对以下文本进行重复检查，提取出重复或者相似句子到新的文本，提取出上下颠倒的句子到另外一个文本
+
+# 1	当时的火箭控卫史蒂夫-弗朗西斯曾经在2002年2月17日到2002年3月4日期间，
+# 	当时的火箭控卫史蒂夫弗朗西斯曾经在二零零二年二月十七日到二零零二年三月四日期间，
+# 2	她们组织的11.16-11.7亚特兰大编程马拉松也即将开始，
+# 	她们组织的十一月十六日到十一月七日亚特兰大编程马拉松也即将开始，
+# 3	果断不能加速注册好难(2013-01-20 17:34:11)
+# 	果断不能加速注册好难（二零一三年一月二十日十七点三十四分十一秒）
+
+
+
+def process(infile, outfile, log=None):
+
+    if log != None:
+        if os.path.isfile(log):
+            os.remove(log)
+
+    idxdict = {} # sent <-> index mapping
+    cndict = {} # line1 <-> line2 mapping
+    idx = 0
+    inf = open(infile, 'r', encoding='utf-8')
+    str_key = ''
+    str_v = ''
+    for line in inf:
+        # if idx == 22:
+        #     idx = idx
+        if idx % 2 == 0:
+            t_list = line.strip().split('\t')
+            if len(t_list) != 2:
+                if log != None:
+                    logf = open(log, 'a', encoding='utf-8')
+                    logf.write("idx=%d line=%s" % (idx, line))
+                    logf.close()
+            else:
+                str_key = t_list[1]
+                if t_list[1] not in idxdict:
+                    idxdict[str_key] = t_list[0]
+                else:
+                    idxdict[str_key] += ',' + t_list[0]
+        else:
+            str_v = line.strip()
+        if len(str_key) > 0 and len(str_v) > 0:
+            # print(str_key, str_v)
+            if str_key not in cndict:
+                tmp_list = list()
+                tmp_list.append(str_v)
+                cndict[str_key] = tmp_list
+            else:
+                cndict[str_key].append(str_v)
+            str_key, str_v = '', ''
+        idx += 1
+    inf.close()
+
+    outf = open(outfile, 'w', encoding='utf-8')
+    for (k, v) in cndict.items():
+        if len(v) > 1:
+            outf.write(idxdict[k] + '\t' + k + '\n')
+            for item in v:
+                outf.write('\t' + item + '\n')
+    outf.close()
+
+    return
+
+
+if __name__ == '__main__':
+    infile = '最终.txt'
+    outfile = '最终_check.txt'
+    log = '最终_log.txt'
+    process(infile, outfile, log)
+    pass
