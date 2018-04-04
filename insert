@@ -1,0 +1,102 @@
+# sym_list = ['，', '。','“','”','！','？','（','）','：','、']
+#300001	除非#3我有#1不在场#1证明#3，否则#3我会#1成为#1嫌疑犯#4。
+#	chu2 fei1 wo6 you3 bu2 zai4 chang3 zheng4 ming2 fou3 ze2 wo3 hui4 cheng2 wei2 xian2 yi2 fan4
+sym_str = "'”）“：（？，、…！。'—!? "
+pause_level = "123456"
+er_py_list = ['er2', 'er5']
+
+#str1和str2传入的都是单一的行str1是汉字，str2是拼音
+def fun_2(str1, str2):
+    #outstr代表输出
+    outstr =''
+    py_list = str2.split(' ')
+    #>>>['chu2', 'fei1', 'wo6', 'you3', 'bu2', 'zai4', 'chang3', 'zheng4', 'ming2', 'fou3', 'ze2', 'wo3', 'hui4', 'cheng2', 'wei2', 'xian2', 'yi2', 'fan4']
+    word_list = list(str1)
+    #>>>['除', '非', '#', '3', '我', '有', '#', '1', '不', '在', '场', '#', '1', '证', '明', '#', '3', '，', '否', '则', '#', '3', '我', '会', '#', '1', '成', '为', '#', '1', '嫌', '疑', '犯', '#', '4']
+    #拼音计数
+    py_idx = 0
+    #汉字计数
+    word_cnt = 0
+    for idx in range(len(word_list)):
+        if (word_list[idx] == '#' and (idx + 1) < len(word_list)
+            and word_list[idx + 1] in pause_level) \
+                or (word_list[idx] in pause_level and (idx - 1) > 0
+                    and word_list[idx - 1] == '#'):
+            if word_list[idx] in pause_level:
+                outstr =  outstr.strip() + word_list[idx] + " "
+            else:
+                outstr = outstr.strip() + word_list[idx]
+        elif word_list[idx] in sym_str:
+            continue
+        else:
+            # 儿化音判断
+            if word_list[idx] == '儿':
+                if py_idx >= len(py_list):
+                    pass
+                # 非儿化音
+                elif py_list[py_idx] in er_py_list and (py_idx - 1) >= 0 \
+                        and (py_list[py_idx - 1][0:-1] == 'er' or py_list[py_idx - 1][-2] != 'r'):
+                    outstr += py_list[py_idx] + " "
+                    py_idx += 1
+                    word_cnt += 1
+                # 儿化音
+                elif py_list[py_idx] not in er_py_list and (py_idx - 1) >= 0 and py_list[py_idx - 1][-2] == 'r':
+                    pass
+                elif py_list[py_idx] in er_py_list and py_idx == 0:
+                    outstr += py_list[py_idx] + " "
+                    py_idx += 1
+                    word_cnt += 1
+            else:
+                outstr += py_list[py_idx] + " "
+                py_idx += 1
+                word_cnt += 1
+    assert(word_cnt == len(py_list))
+    return outstr
+
+def process(infile, outfile):
+    out = open(outfile, 'w', encoding="utf-8")
+
+    with open(infile,'r',encoding='utf-8') as f1:
+        lines = f1.readlines()
+
+    i=0
+    str_cn, str_py, str_cnt ='', '', ''
+    for line in lines:
+        #去掉空格行.strip可以去除句子的前后的'\n'等
+        if len(line.strip()) == 0:
+            continue
+        #读取第一行
+        if i%2 == 0:
+            #第一行去掉'\n',并使用'\t'分割句子
+            items = line.strip().split('\t')
+            #'\t'之前的数字
+            str_cnt = items[0]
+            # if str_cnt == '006934':
+            #     str_cnt = str_cnt
+            #'\t'之后的汉字
+            str_cn= items[1]
+            print("cur:%s" % str_cnt)
+        #读取第二行拼音行
+        if i%2 == 1:
+            str_py= line.strip()
+            #>>>chu2 fei1 wo6 you3 bu2 zai4 chang3 zheng4 ming2 fou3 ze2 wo3 hui4 cheng2 wei2 xian2 yi2 fan4
+        #判断拼音行和汉字行不为空
+        if len(str_py) > 0 and len(str_cn)>0:
+            outstr = fun_2(str_cn.strip(), str_py.strip())
+            out.write(str_cnt + "\t" + str_cn + "\n")
+            out.write("\t" + outstr.strip() + "\n")
+            #下面这行可不可以往前退一格？？？？？？？？？？
+            str_cn, str_py = '', ''
+        #加一是用来区分奇数行和偶数行的
+        i += 1
+
+    out.close()
+
+
+
+
+infile = 'E:\\20.txt'
+outfile = "\\20s.txt"
+process(infile, outfile)
+
+
