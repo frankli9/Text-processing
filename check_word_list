@@ -1,0 +1,27 @@
+import logging
+
+def check_fulllist_in_monolist(key,text):
+    monolist_set = set()
+    ret_list = []
+    # read fulllist
+    with open('{}'.format(key),'r') as f1:
+        monolist = f1.readlines()
+
+    for list1 in monolist:
+        list2 = list1.strip()
+        monolist_set.add(list2)
+
+    # read fulllist
+    with open('{}'.format(text),'r') as f2:
+        fulllist = f2.readlines()
+
+    for line2 in fulllist:
+        line3 = line2.split('=')[0].split('-')[1].split('+')[0]
+        if line3 in list(monolist_set):
+            pass
+        else:
+            ret_list.append(line3)
+            with open('check_list.txt'.format(text,key), 'a') as f3:
+                f3.write(line3+'\n')
+
+    return ret_list
