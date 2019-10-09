@@ -1,0 +1,10 @@
+filepath=r'data.csv'
+
+font={'family':'SimHei'}
+matplotlib.rc('font',**font)
+
+data=read_csv(filepath)
+plt.plot(data['广告费用'],data['购买用户数'],'.')
+plt.xlabel('广告费用')
+plt.ylabel('购买用户数')
+plt.show()
